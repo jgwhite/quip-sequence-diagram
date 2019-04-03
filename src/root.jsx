@@ -10,7 +10,7 @@ export class RootRecord extends quip.apps.RootRecord {
 
   static getDefaultProperties() {
     return {
-      src: "title Example\nAlice -> Bob: Hello\nBob -> Alice: Hi"
+      src: "Alice -> Bob: Hello\nBob -> Alice: Hi"
     };
   }
 }

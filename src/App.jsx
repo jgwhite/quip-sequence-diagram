@@ -1,4 +1,6 @@
 import Editor from "./editor.jsx";
+import SequenceDiagram from "react-sequence-diagram";
+
 export default class App extends React.Component {
   state = {
     isFocused: false,
@@ -14,11 +16,15 @@ export default class App extends React.Component {
     return (
       <div
         style={{
+          width: `${width}px`,
           outline: isEditing ? `2px solid ${gray}` : "none",
           minHeight: isEditing ? "128px" : "0"
         }}
       >
-        <div style={{ width: `${width}px` }}>{src}</div>
+        <SequenceDiagram
+          input={src}
+          onError={this.onDiagramError}
+        />
         {isEditing && (
           <Editor
             src={src}
@@ -53,6 +59,8 @@ export default class App extends React.Component {
   componentDidUpdate() {
     this.updateMenu();
   }
+
+  diagramDidRender() {}
 
   componentWillUnmount() {
     quip.apps.removeEventListener(quip.apps.EventType.FOCUS, this.onFocus);
@@ -107,5 +115,9 @@ export default class App extends React.Component {
       return;
     }
     this.forceUpdate();
+  };
+
+  onDiagramError = error => {
+    console.error(error);
   };
 }
