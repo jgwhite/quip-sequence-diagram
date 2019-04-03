@@ -1,4 +1,5 @@
 export default class App extends React.Component {
+
   state = {
     isFocused: false,
     isEditing: false
@@ -27,6 +28,11 @@ export default class App extends React.Component {
     quip.apps.addEventListener(quip.apps.EventType.BLUR, this.onBlur);
     this.props.rootRecord.listen(this.onChange);
     this.updateMenu();
+  }
+
+  editorDidMount(editor) {
+    editor.focus();
+    this.editor = editor;
   }
 
   componentDidUpdate() {
@@ -65,10 +71,6 @@ export default class App extends React.Component {
     }
   }
 
-  editorDidMount(editor) {
-    editor.focus();
-    this.editor = editor;
-  }
   onFocus = () => {
     this.setState({ isFocused: true });
     this.updateMenu();
@@ -85,4 +87,5 @@ export default class App extends React.Component {
     }
     this.forceUpdate();
   };
+
 }
