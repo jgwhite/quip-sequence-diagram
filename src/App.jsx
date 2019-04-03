@@ -1,5 +1,5 @@
+import Editor from "./editor.jsx";
 export default class App extends React.Component {
-
   state = {
     isFocused: false,
     isEditing: false
@@ -8,17 +8,32 @@ export default class App extends React.Component {
   render() {
     let src = this.props.rootRecord.get("src");
     let width = quip.apps.getContainerWidth();
-    let { isFocused, isEditing } = this.state;
+    let gray = "#e3e5e8";
+    let { isEditing } = this.state;
 
     return (
       <div
         style={{
-          width: `${width}px`,
-          background: isEditing ? "pink" : "",
-          outline: isFocused ? "1px solid red" : ""
+          outline: isEditing ? `2px solid ${gray}` : "none",
+          minHeight: isEditing ? "128px" : "0"
         }}
       >
-        {src}
+        <div style={{ width: `${width}px` }}>{src}</div>
+        {isEditing && (
+          <Editor
+            src={src}
+            style={{
+              position: "absolute",
+              top: "-2px",
+              left: "100%",
+              bottom: "-2px",
+              width: (document.body.clientWidth - width) / 2 - 16 + "px",
+              border: `2px solid ${gray}`
+            }}
+            onChange={value => this.updateSrc(value)}
+            onMount={editor => this.editorDidMount(editor)}
+          />
+        )}
       </div>
     );
   }
@@ -43,6 +58,12 @@ export default class App extends React.Component {
     quip.apps.removeEventListener(quip.apps.EventType.FOCUS, this.onFocus);
     quip.apps.removeEventListener(quip.apps.EventType.BLUR, this.onBlur);
     this.props.rootRecord.unlisten(this.onChange);
+  }
+
+  updateSrc(value) {
+    let { rootRecord } = this.props;
+    rootRecord.set("src", value);
+    this.forceUpdate();
   }
 
   updateMenu() {
@@ -87,5 +108,4 @@ export default class App extends React.Component {
     }
     this.forceUpdate();
   };
-
 }
