@@ -58,9 +58,11 @@ export default class App extends React.Component {
 
   componentDidUpdate() {
     this.updateMenu();
-  }
 
-  diagramDidRender() {}
+    if (this.editor) {
+      this.editor.layout();
+    }
+  }
 
   componentWillUnmount() {
     quip.apps.removeEventListener(quip.apps.EventType.FOCUS, this.onFocus);
