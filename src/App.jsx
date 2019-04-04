@@ -1,5 +1,8 @@
 import Editor from "./editor.jsx";
 import SequenceDiagram from "react-sequence-diagram";
+import debounceRender from "react-debounce-render";
+
+const DebouncedSequenceDiagram = debounceRender(SequenceDiagram);
 
 export default class App extends React.Component {
   state = {
@@ -21,7 +24,7 @@ export default class App extends React.Component {
           minHeight: isEditing ? "128px" : "0"
         }}
       >
-        <SequenceDiagram
+        <DebouncedSequenceDiagram
           input={src}
           options={{
             theme: "simple"

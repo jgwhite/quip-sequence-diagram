@@ -12,5 +12,8 @@
         "quip-apps-webpack-config": ">=0.0.39",
         "react-monaco-editor": "^0.25.1",
         "react-sequence-diagram": "0.0.12"
+    },
+    "dependencies": {
+        "react-debounce-render": "^5.0.0"
     }
 }
