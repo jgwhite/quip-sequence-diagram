@@ -2,7 +2,7 @@
     "id": "XeMAjAiEpx2",
     "manifest_version": 1,
     "name": "Sequence Diagram",
-    "version_name": "0.1.1",
+    "version_name": "0.2.0",
     "version_number": 1,
     "sizing_mode": "fit_content",
     "initial_height": 300,
