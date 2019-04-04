@@ -23,6 +23,9 @@ export default class App extends React.Component {
       >
         <SequenceDiagram
           input={src}
+          options={{
+            theme: "simple"
+          }}
           onError={this.onDiagramError}
         />
         {isEditing && (
