@@ -2,7 +2,31 @@ import Editor from "./editor.jsx";
 import SequenceDiagram from "react-sequence-diagram";
 import debounceRender from "react-debounce-render";
 
-const DebouncedSequenceDiagram = debounceRender(SequenceDiagram);
+class FixedWidthSequenceDiagram extends SequenceDiagram {
+  componentDidMount() {
+    super.componentDidMount();
+    this.fixWidth();
+  }
+
+  componentDidUpdate() {
+    super.componentDidUpdate();
+    this.fixWidth();
+  }
+
+  fixWidth() {
+    if (!this.div) return;
+
+    const svg = this.div.querySelector("svg");
+    const width = svg.getAttribute("width");
+    const height = svg.getAttribute("height");
+    const viewBox = `0 0 ${width} ${height}`;
+
+    svg.setAttribute("viewBox", viewBox);
+    svg.setAttribute("width", "100%");
+    svg.removeAttribute("height");
+  }
+}
+const DebouncedSequenceDiagram = debounceRender(FixedWidthSequenceDiagram);
 
 export default class App extends React.Component {
   state = {
