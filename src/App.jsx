@@ -109,27 +109,54 @@ export default class App extends React.Component {
   updateMenu() {
     if (this.state.isEditing) {
       quip.apps.updateToolbar({
-        toolbarCommandIds: ["edit"],
+        toolbarCommandIds: ["edit", "download"],
         menuCommands: [
           {
             id: "edit",
             label: "Done",
             handler: () => this.setState({ isEditing: false })
+          },
+          {
+            id: "download",
+            label: "Download",
+            handler: () => this.download()
           }
         ]
       });
     } else {
       quip.apps.updateToolbar({
-        toolbarCommandIds: ["edit"],
+        toolbarCommandIds: ["edit", "download"],
         menuCommands: [
           {
             id: "edit",
             label: "Edit",
             handler: () => this.setState({ isEditing: true })
+          },
+          {
+            id: "download",
+            label: "Download",
+            handler: () => this.download()
           }
         ]
       });
     }
+  }
+
+  download = () => {
+    const svg = document.body.querySelector("svg");
+    const blob = new Blob([svg.outerHTML], {type : 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+
+    const element = document.createElement('a');
+  element.setAttribute('href', url);
+  element.setAttribute('download', "diagram.svg");
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
   }
 
   onFocus = () => {
